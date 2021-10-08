@@ -1,7 +1,6 @@
 package com.reminder.webapi.controller;
 
 import com.reminder.webapi.model.Account;
-import com.reminder.webapi.reference.AccountRole;
 import com.reminder.webapi.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

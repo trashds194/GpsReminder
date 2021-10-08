@@ -23,7 +23,7 @@ public class AccountServiceImpl implements AccountService {
     @PostConstruct
     public void initialize() {
         if (accountRepository.findOneByUsername("admin") == null) {
-            create(new Account("admin", "2182315Dimas", "trashds194@yandex.ru", AccountRole.ADMIN.name()));
+            create(new Account("admin", "admin", "trashds194@yandex.ru", AccountRole.ADMIN.name()));
         }
         if (accountRepository.findOneByUsername("Ann") == null) {
             create(new Account("Ann", "mam1404", "mam1404@yandex.ru", AccountRole.USER.name()));

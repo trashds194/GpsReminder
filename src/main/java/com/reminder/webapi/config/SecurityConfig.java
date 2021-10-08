@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,7 +27,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests().antMatchers("/locations/**").hasAnyRole("ADMIN", "USER")
+        httpSecurity
+                .authorizeRequests()
+                .antMatchers("/", "/index").permitAll()
+                .and()
+                .formLogin().
+                loginPage("/login").permitAll().failureUrl("/login-error.html").
+                and().
+                authorizeRequests().
+                antMatchers("/locations/**").
+                hasAnyRole("ADMIN", "USER")
+                .and()
+                .authorizeRequests().
+                antMatchers("/api/locations/**").
+                hasAnyRole("ADMIN", "USER")
+                .and()
+                .logout().permitAll().logoutSuccessUrl("/login")
                 .and()
                 .httpBasic();
         httpSecurity.cors().disable().csrf().disable();
