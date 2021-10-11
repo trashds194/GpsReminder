@@ -1,10 +1,13 @@
-CREATE TABLE IF NOT EXISTS location
+CREATE TABLE IF NOT EXISTS reminder
 (
-    id        BIGINT PRIMARY KEY,
-    "user_id" BIGINT,
-    "cr_date" DATE,
-    latitude  double precision,
-    longitude double precision
+    id           BIGINT PRIMARY KEY,
+    "user_id"    BIGINT,
+    title        TEXT,
+    description  TEXT,
+    "place_name" TEXT,
+    "cr_date"    DATE,
+    latitude     double precision,
+    longitude    double precision
 );
 
 CREATE TABLE IF NOT EXISTS "user"
@@ -15,5 +18,5 @@ CREATE TABLE IF NOT EXISTS "user"
     email    TEXT,
     role     TEXT
 );
-CREATE SEQUENCE IF NOT EXISTS locations_id_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS reminders_id_seq START WITH 1 INCREMENT BY 1;
 CREATE SEQUENCE IF NOT EXISTS users_id_seq START WITH 1 INCREMENT BY 1;
