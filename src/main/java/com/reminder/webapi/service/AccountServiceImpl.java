@@ -68,4 +68,20 @@ public class AccountServiceImpl implements AccountService {
         }
         return false;
     }
+
+    @Override
+    public Account findByLogin(String login) {
+        return accountRepository.findOneByUsername(login);
+    }
+
+    @Override
+    public Account findByLoginAndPassword(String login, String password) {
+        Account account = findByLogin(login);
+        if (account != null) {
+            if (passwordEncoder.matches(password, account.getPassword())) {
+                return account;
+            }
+        }
+        return null;
+    }
 }

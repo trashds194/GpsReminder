@@ -44,6 +44,7 @@ public class ReminderServiceImpl implements ReminderService {
 
     @Override
     public List<Reminder> readAllUserLocations(String login, UserDetails userDetails) {
+        System.out.println(userDetails.getUsername());
         Account account = accountRepository.findOneByUsername(userDetails.getUsername());
         if (account.getUsername().equals(login))
             return reminderRepository.findAllByUserId(account.getId());

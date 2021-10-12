@@ -14,17 +14,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Service
-public class AuthenticationService implements UserDetailsService{
+public class AuthenticationService implements UserDetailsService {
+
+    private final AccountRepository accountRepository;
 
     @Autowired
-    private AccountRepository accountRepository;
+    public AuthenticationService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = accountRepository.findOneByUsername(username);
         System.out.println(account.toString());
         if (account == null) {
-            throw new UsernameNotFoundException("Utilisateur non trouvé : " + username);
+            throw new UsernameNotFoundException("User not found: " + username);
         }
 
         return createUser(account);
