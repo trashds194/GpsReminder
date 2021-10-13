@@ -3,8 +3,8 @@ package com.reminder.webapi.controller;
 import com.reminder.webapi.config.jwt.JwtProvider;
 import com.reminder.webapi.model.Account;
 import com.reminder.webapi.service.AccountService;
-import com.reminder.webapi.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,23 +14,26 @@ import java.util.List;
 
 @RestController
 public class AccountController {
-    private final AuthenticationService authenticationService;
     private final AccountService accountService;
     private final JwtProvider jwtProvider;
 
     @Autowired
-    public AccountController(AuthenticationService authenticationService, AccountService accountService, JwtProvider jwtProvider) {
-        this.authenticationService = authenticationService;
+    public AccountController(AccountService accountService, JwtProvider jwtProvider) {
         this.accountService = accountService;
         this.jwtProvider = jwtProvider;
     }
 
     @PostMapping("api/login")
+    @ResponseBody
     public ResponseEntity<?> login(@RequestBody Account account) {
         System.out.println(account.getUsername());
         Account logAccount = accountService.findByLoginAndPassword(account.getUsername(), account.getPassword());
         String token = jwtProvider.generateToken(logAccount.getUsername());
-        return new ResponseEntity<>(token, HttpStatus.OK);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("user_token", token);
+
+        return new ResponseEntity<>(token, headers, HttpStatus.OK);
     }
 
     @PostMapping("api/accounts")

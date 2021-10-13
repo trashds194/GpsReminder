@@ -1,7 +1,6 @@
 package com.reminder.webapi.controller;
 
 import com.reminder.webapi.model.Reminder;
-import com.reminder.webapi.service.ReminderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
