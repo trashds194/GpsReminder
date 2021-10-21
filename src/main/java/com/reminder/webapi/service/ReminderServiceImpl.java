@@ -25,7 +25,6 @@ public class ReminderServiceImpl implements ReminderService {
         this.accountRepository = accountRepository;
     }
 
-
     @Override
     public boolean create(Reminder reminder, UserDetails userDetails) {
         if (userDetails.getUsername() != null) {
@@ -43,21 +42,16 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
-    public List<Reminder> readAllUserLocations(String login, UserDetails userDetails) {
+    public List<Reminder> readAllUserLocations(UserDetails userDetails) {
         System.out.println(userDetails.getUsername());
         Account account = accountRepository.findOneByUsername(userDetails.getUsername());
-        if (account.getUsername().equals(login))
+        if (account.getUsername().equals(userDetails.getUsername()))
             return reminderRepository.findAllByUserId(account.getId());
         else return Collections.emptyList();
     }
 
-//    @Override
-//    public Reminder read(long id) {
-//        return reminderRepository.getById(id);
-//    }
-
     @Override
-    public Reminder read(String login, long id, UserDetails userDetails) {
+    public Reminder read(long id, UserDetails userDetails) {
         try {
             Account account = accountRepository.findOneByUsername(userDetails.getUsername());
             Reminder reminder = reminderRepository.getById(id);
@@ -71,7 +65,7 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
-    public Reminder search(String login, String title, UserDetails userDetails) {
+    public Reminder search(String title, UserDetails userDetails) {
         try {
             Account account = accountRepository.findOneByUsername(userDetails.getUsername());
             Reminder reminder = reminderRepository.findByTitle(title);
@@ -85,7 +79,7 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
-    public boolean update(String login, Reminder reminder, long id, UserDetails userDetails) {
+    public boolean update(Reminder reminder, long id, UserDetails userDetails) {
         Account account = accountRepository.findOneByUsername(userDetails.getUsername());
         if (Objects.equals(account.getId(), reminder.getUserId())) {
             if (reminderRepository.existsById(id)) {
@@ -98,7 +92,7 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
-    public boolean delete(String login, long id, UserDetails userDetails) {
+    public boolean delete(long id, UserDetails userDetails) {
         Account account = accountRepository.findOneByUsername(userDetails.getUsername());
         if (Objects.equals(account.getId(), reminderRepository.findById(id).get().getUserId())) {
             if (reminderRepository.existsById(id)) {

@@ -23,7 +23,7 @@ public class AccountController {
         this.jwtProvider = jwtProvider;
     }
 
-    @PostMapping("api/login")
+    @PostMapping(value = "/api/login")
     @ResponseBody
     public ResponseEntity<?> login(@RequestBody Account account) {
         System.out.println(account.getUsername());
@@ -32,18 +32,19 @@ public class AccountController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("user_token", token);
+        headers.add("login", logAccount.getUsername());
 
         return new ResponseEntity<>(token, headers, HttpStatus.OK);
     }
 
-    @PostMapping("api/accounts")
+    @PostMapping(value = "/api/register")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> create(@RequestBody Account account) {
         accountService.create(account);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "api/accounts")
+    @GetMapping(value = "/api/accounts")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<Account>> read() {
         final List<Account> accounts = accountService.readAll();
@@ -53,7 +54,7 @@ public class AccountController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "api/accounts/{id}")
+    @GetMapping(value = "/api/accounts/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Account> read(@PathVariable(name = "id") long id) {
         final Account account = accountService.read(id);
@@ -63,7 +64,7 @@ public class AccountController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping(value = "api/accounts/{id}")
+    @PutMapping(value = "/api/accounts/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> update(@PathVariable(name = "id") long id, @RequestBody Account account) {
         final boolean updated = accountService.update(account, id);
@@ -73,7 +74,7 @@ public class AccountController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @DeleteMapping(value = "api/accounts/{id}")
+    @DeleteMapping(value = "/api/accounts/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> delete(@PathVariable(name = "id") long id) {
         final boolean deleted = accountService.delete(id);

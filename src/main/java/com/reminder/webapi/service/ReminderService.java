@@ -10,15 +10,13 @@ public interface ReminderService {
 
     List<Reminder> readAll();
 
-    List<Reminder> readAllUserLocations(String login, UserDetails userDetails);
+    List<Reminder> readAllUserLocations(UserDetails userDetails);
 
-//    Reminder read(long id);
+    Reminder read(long id, UserDetails userDetails);
 
-    Reminder read(String login, long id, UserDetails userDetails);
+    Reminder search(String Title, UserDetails userDetails);
 
-    Reminder search(String login, String Title, UserDetails userDetails);
+    boolean update(Reminder reminder, long id, UserDetails userDetails);
 
-    boolean update(String login, Reminder reminder, long id, UserDetails userDetails);
-
-    boolean delete(String login, long id, UserDetails userDetails);
+    boolean delete(long id, UserDetails userDetails);
 }
