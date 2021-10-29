@@ -81,9 +81,11 @@ public class ReminderServiceImpl implements ReminderService {
     @Override
     public boolean update(Reminder reminder, long id, UserDetails userDetails) {
         Account account = accountRepository.findOneByUsername(userDetails.getUsername());
-        if (Objects.equals(account.getId(), reminder.getUserId())) {
+        Reminder findReminder = reminderRepository.getById(id);
+        if (Objects.equals(account.getId(), findReminder.getUserId())) {
             if (reminderRepository.existsById(id)) {
                 reminder.setId(id);
+                reminder.setUserId(findReminder.getUserId());
                 reminderRepository.save(reminder);
                 return true;
             }

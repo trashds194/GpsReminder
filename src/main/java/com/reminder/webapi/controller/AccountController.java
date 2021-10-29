@@ -27,14 +27,18 @@ public class AccountController {
     @ResponseBody
     public ResponseEntity<?> login(@RequestBody Account account) {
         System.out.println(account.getUsername());
-        Account logAccount = accountService.findByLoginAndPassword(account.getUsername(), account.getPassword());
-        String token = jwtProvider.generateToken(logAccount.getUsername());
+        try {
+            Account logAccount = accountService.findByLoginAndPassword(account.getUsername(), account.getPassword());
+            String token = jwtProvider.generateToken(logAccount.getUsername());
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("user_token", token);
-        headers.add("login", logAccount.getUsername());
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("user_token", token);
+            headers.add("login", logAccount.getUsername());
 
-        return new ResponseEntity<>(token, headers, HttpStatus.OK);
+            return new ResponseEntity<>(token, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping(value = "/api/register")

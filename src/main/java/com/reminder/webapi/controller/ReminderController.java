@@ -44,10 +44,8 @@ public class ReminderController {
     @GetMapping(value = "/api/reminders")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<Reminder>> readAllUserLocations(@AuthenticationPrincipal UserDetails userDetails) {
-        final List<Reminder> reminderList = reminderService.readAllUserLocations(userDetails);
-
-        return reminderList != null && !reminderList.isEmpty()
-                ? new ResponseEntity<>(reminderList, HttpStatus.OK)
+        return updateList(userDetails) != null
+                ? new ResponseEntity<>(updateList(userDetails), HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -72,10 +70,9 @@ public class ReminderController {
     }
 
     @PutMapping(value = "/api/reminders/{id}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> update(@PathVariable(name = "id") long id, @RequestBody Reminder reminder, @AuthenticationPrincipal UserDetails userDetails) {
         final boolean updated = reminderService.update(reminder, id, userDetails);
-
         return updated
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -85,9 +82,12 @@ public class ReminderController {
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> delete(@PathVariable(name = "id") long id, @AuthenticationPrincipal UserDetails userDetails) {
         final boolean deleted = reminderService.delete(id, userDetails);
-
         return deleted
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    }
+
+    private List<Reminder> updateList(UserDetails userDetails){
+        return reminderService.readAllUserLocations(userDetails);
     }
 }
