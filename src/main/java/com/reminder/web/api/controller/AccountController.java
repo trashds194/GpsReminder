@@ -31,6 +31,8 @@ public class AccountController {
             Account logAccount = accountService.findByLoginAndPassword(account.getUsername(), account.getPassword());
             String token = jwtProvider.generateToken(logAccount.getUsername());
 
+            System.out.println(token);
+
             HttpHeaders headers = new HttpHeaders();
             headers.add("user_token", token);
             headers.add("login", logAccount.getUsername());

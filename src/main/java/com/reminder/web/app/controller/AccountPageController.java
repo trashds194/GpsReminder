@@ -21,12 +21,12 @@ public class AccountPageController {
 
     private String urlSwitcher() {
         String url;
-        boolean test = true;
+        boolean test = false;
         if (test) {
             url = "http://localhost:8080/api/login/";
             return url;
         } else {
-            url = "https://gps-reminder-rest-api.herokuapp.com/api/login/";
+            url = "https://gps-reminder.herokuapp.com/api/login/";
             return url;
         }
     }

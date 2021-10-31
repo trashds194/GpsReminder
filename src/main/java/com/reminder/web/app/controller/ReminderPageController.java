@@ -25,12 +25,12 @@ public class ReminderPageController {
 
     private String urlSwitcher() {
         String url;
-        boolean test = true;
+        boolean test = false;
         if (test) {
             url = "http://localhost:8080/api/reminders/";
             return url;
         } else {
-            url = "https://gps-reminder-rest-api.herokuapp.com/api/reminders/";
+            url = "https://gps-reminder.herokuapp.com/api/reminders/";
             return url;
         }
     }

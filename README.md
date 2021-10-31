@@ -1,4 +1,4 @@
-#GPS Reminder
+# GPS Reminder
 
 Данный проект представляет собой небольшое веб-приложение,
 основанное на Spring Framework с использованием Spring-Boot.
