@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <title>Reminders</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    function rowClicked(value) {
+        // alert(value);
+        location.href = window.location.href + "/" + value;
+    }
+
+    function addClicked() {
+        // alert(value);
+        location.href = window.location.href + "/add";
+    }
+
+    function delClicked(value) {
+        event.stopPropagation();
+        $.ajax({
+            url: '/reminders/del/' + value,
+            data: value,
+            type: 'DELETE',
+            success: function () {
+                console.log("SUCCESS: ", value);
+                location.href = window.location.href;
+            }
+        });
+    }
+
+    function changeClicked(value) {
+        event.stopPropagation();
+        console.log("SUCCESS: ", value);
+        location.href = window.location.href + "/" + value + "/change";
+    }
+</script>
+<table th:border="1">
+    <!--/*@thymesVar id="reminders" type=""*/-->
+    <tr th:name="reminders_table" th:each="reminder: ${reminders}" style="cursor: pointer"
+        th:onclick="'javascript:rowClicked(\'' + ${reminder.id} + '\');'">
+        <td th:name="id" th:text="${reminder.id}"></td>
+        <td th:text="${reminder.title}"></td>
+        <td th:text="${reminder.description}"></td>
+        <td th:text="${reminder.placeName}"></td>
+        <td th:text="${reminder.latitude}"></td>
+        <td th:text="${reminder.longitude}"></td>
+        <td>
+            <button th:class='change' th:onclick="'javascript:changeClicked(\'' + ${reminder.id} + '\');'">Change
+            </button>
+        </td>
+        <td>
+            <button th:class='delete' th:onclick="'javascript:delClicked(\'' + ${reminder.id} + '\');'">Del</button>
+        </td>
+        <p></p>
+    </tr>
+</table>
+
+<p></p>
+<button th:onclick="'javascript:addClicked();'">
+    Добавить напоминание
+</button>
+
+</body>
+</html>

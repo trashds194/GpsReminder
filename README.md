@@ -1,1 +1,8 @@
-# Simple Spring REST API project
+#GPS Reminder
+
+Данный проект представляет собой небольшое веб-приложение,
+основанное на Spring Framework с использованием Spring-Boot.
+
+Цель данного проекта:
+* научиться разрабатывать и использовать REST API средствами Java и Spring Framework;
+
