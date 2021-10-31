@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reminder</title>
+</head>
+<body>
+<table th:border="1">
+    <tr th:name="reminders_table" th:each="reminder: ${reminders}" style="cursor: pointer"
+        th:onclick="'javascript:rowClicked(\'' + ${reminder.id} + '\');'">
+        <td th:text="${reminder.id}"></td>
+        <td th:text="${reminder.title}"></td>
+        <td th:text="${reminder.description}"></td>
+        <td th:text="${reminder.placeName}"></td>
+        <td th:text="${reminder.latitude}"></td>
+        <td th:text="${reminder.longitude}"></td>
+        <p></p>
+    </tr>
+</table>
+
+</body>
+</html>

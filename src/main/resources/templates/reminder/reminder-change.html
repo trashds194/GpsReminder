@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Change reminder</title>
+</head>
+<body>
+<div th:if="${error}">
+    <a>Invalid data.</a>
+</div>
+<script type="text/javascript">
+    function addClicked() {
+        // alert(value);
+        location.href = window.location.href;
+    }
+</script>
+<form th:each="reminder: ${reminders}" th:action="'./change'" th:object="${reminder}"
+      method="post" enctype="application/x-www-form-urlencoded">
+    <div><label> Название: <input th:value="${reminder.title}" type="text" name="title"/> </label></div>
+    <div><label> Описание: <input th:value="${reminder.description}" type="text" name="description"/> </label></div>
+    <div><label> Название места: <input th:value="${reminder.placeName}" type="text" name="placeName"/> </label></div>
+    <div><label> Широта: <input type="text" name="latitude"/> </label></div>
+    <div><label> Долгота: <input type="text" name="longitude"/> </label></div>
+    <div><input type="submit" value="Создать"/></div>
+</form>
+</body>
+</html>

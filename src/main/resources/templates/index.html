@@ -8,9 +8,11 @@
 <body>
 <p>Hello world from Heroku Spring!</p>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
+<!--<form th:action="@{/logout}" method="post">-->
+<!--    <input type="submit" value="Sign Out"/>-->
+<!--</form>-->
+<form th:action="@{/login}" method="post">
+    <input type="submit" value="Sign In"/>
 </form>
-<!--<img th:src="@{/images/img.jpg}" />-->
 </body>
 </html>
