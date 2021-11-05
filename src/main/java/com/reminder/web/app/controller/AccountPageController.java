@@ -63,9 +63,6 @@ public class AccountPageController {
             addCookie("user_token", responseHeaders, httpServletResponse);
             addCookie("username", responseHeaders, httpServletResponse);
 
-            addMobileCookie("user_token", responseHeaders, httpServletResponse);
-            addMobileCookie("username", responseHeaders, httpServletResponse);
-
             return "redirect:/reminders";
         } catch (Exception exception) {
             model.addAttribute("loginError", exception.toString());
@@ -78,14 +75,6 @@ public class AccountPageController {
         cookie.setMaxAge(2 * 24 * 60 * 60); //2 day cookies
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
-
-        httpServletResponse.addCookie(cookie);
-    }
-
-    private void addMobileCookie(String cookieName, HttpHeaders httpHeaders, HttpServletResponse httpServletResponse) {
-        Cookie cookie = new Cookie(cookieName, httpHeaders.getFirst(cookieName));
-        cookie.setMaxAge(2 * 24 * 60 * 60); //2 day cookies
-        cookie.setSecure(true);
 
         httpServletResponse.addCookie(cookie);
     }
