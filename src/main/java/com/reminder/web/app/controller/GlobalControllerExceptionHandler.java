@@ -13,6 +13,8 @@ public class GlobalControllerExceptionHandler {
                 return "404";
             case (403):
                 return "403";
+            case (405):
+                return "405";
             default:
                 break;
         }

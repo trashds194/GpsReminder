@@ -1,7 +1,7 @@
 package com.reminder.web.api.config;
 
-import com.reminder.web.api.service.AuthenticationService;
 import com.reminder.web.api.config.jwt.JwtFilter;
+import com.reminder.web.api.service.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +41,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/index").permitAll()
                 .antMatchers("/api/reminders/**").hasAnyRole("ADMIN", "USER")
+//                .antMatchers("/reminders/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/api/register", "/api/login").permitAll()
+                .antMatchers("/register", "/login").permitAll()
+                .antMatchers("/api/accounts/**").hasAnyRole("ADMIN", "USER")
                 .and()
 //                .formLogin()
 //                .loginPage("/login").permitAll().failureUrl("/login-error.html")

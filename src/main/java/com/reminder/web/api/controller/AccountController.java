@@ -14,14 +14,13 @@ import java.util.List;
 
 @RestController
 public class AccountController {
-    private final AccountService accountService;
-    private final JwtProvider jwtProvider;
 
     @Autowired
-    public AccountController(AccountService accountService, JwtProvider jwtProvider) {
-        this.accountService = accountService;
-        this.jwtProvider = jwtProvider;
-    }
+    private AccountService accountService;
+
+    @Autowired
+    private JwtProvider jwtProvider;
+
 
     @PostMapping(value = "/api/login")
     @ResponseBody
@@ -35,9 +34,9 @@ public class AccountController {
 
             HttpHeaders headers = new HttpHeaders();
             headers.add("user_token", token);
-            headers.add("login", logAccount.getUsername());
+            headers.add("username", logAccount.getUsername());
 
-            return new ResponseEntity<>(token, headers, HttpStatus.OK);
+            return new ResponseEntity<>(headers, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

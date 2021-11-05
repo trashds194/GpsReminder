@@ -16,14 +16,11 @@ import java.util.Objects;
 @Service
 public class ReminderServiceImpl implements ReminderService {
 
-    private final ReminderRepository reminderRepository;
-    private final AccountRepository accountRepository;
+    @Autowired
+    private ReminderRepository reminderRepository;
 
     @Autowired
-    public ReminderServiceImpl(ReminderRepository reminderRepository, AccountRepository accountRepository) {
-        this.reminderRepository = reminderRepository;
-        this.accountRepository = accountRepository;
-    }
+    private AccountRepository accountRepository;
 
     @Override
     public boolean create(Reminder reminder, UserDetails userDetails) {
