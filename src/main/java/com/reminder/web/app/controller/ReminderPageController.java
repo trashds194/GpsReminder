@@ -55,6 +55,8 @@ public class ReminderPageController {
                                        @CookieValue(value = "username", defaultValue = "null") String username,
                                        @CookieValue(value = "user_token", defaultValue = "null") String token) {
 
+        System.out.println(token);
+
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);

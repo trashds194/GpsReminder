@@ -9,6 +9,8 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler(value = HttpClientErrorException.class)
     public String responseNotFoundException(HttpClientErrorException httpClientErrorException) {
         switch (httpClientErrorException.getRawStatusCode()) {
+            case (400):
+                return "400";
             case (404):
                 return "404";
             case (403):
