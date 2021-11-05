@@ -75,7 +75,6 @@ public class AccountPageController {
         cookie.setMaxAge(2 * 24 * 60 * 60); //2 day cookies
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
-        cookie.setPath("/");
 
         httpServletResponse.addCookie(cookie);
     }
