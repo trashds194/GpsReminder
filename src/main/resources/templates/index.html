@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+>
 <head>
     <meta charset="UTF-8">
     <title>Home page</title>
 </head>
 <body>
 <p>Hello world from Heroku Spring!</p>
-<h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+<h1 th:inline="text">Hello[[${#httpServletRequest.remoteUser}]]!</h1>
 <!--<form th:action="@{/logout}" method="post">-->
 <!--    <input type="submit" value="Sign Out"/>-->
 <!--</form>-->
-<form th:action="@{/login}" method="post">
+<form th:action="@{/login}" method="get">
     <input type="submit" value="Sign In"/>
 </form>
 </body>

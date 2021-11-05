@@ -1,18 +1,15 @@
 package com.reminder.web.app.controller;
 
 import com.reminder.web.app.model.Reminder;
-import com.reminder.web.app.model.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,38 +18,26 @@ import java.util.List;
 
 @Controller
 public class ReminderPageController {
-    private final RestTemplate restTemplate;
-
-    private String urlSwitcher() {
-        String url;
-        boolean test = false;
-        if (test) {
-            url = "http://localhost:8080/api/reminders/";
-            return url;
-        } else {
-            url = "https://gps-reminder.herokuapp.com/api/reminders/";
-            return url;
-        }
-    }
-
 
     @Autowired
-    public ReminderPageController(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    private RestTemplate restTemplate;
+
+    @Value("${backend.link}")
+    private String url;
 
     @GetMapping(value = "/reminders/all")
-    public String read(Model model) {
-        if (User.token == null) throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+    public String read(Model model,
+                       @CookieValue(value = "username", defaultValue = "null") String username,
+                       @CookieValue(value = "user_token", defaultValue = "null") String token) {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + User.token);
+        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         HttpEntity<String> entity = new HttpEntity<>("body", requestHeaders);
         ResponseEntity<List<Reminder>> responseEntity =
                 restTemplate.exchange(
-                        urlSwitcher() + "all",
+                        url + "reminders/all",
                         HttpMethod.GET,
                         entity,
                         new ParameterizedTypeReference<List<Reminder>>() {
@@ -66,17 +51,18 @@ public class ReminderPageController {
     }
 
     @GetMapping(value = "/reminders")
-    public String readAllUserLocations(Model model) {
-        if (User.token == null) throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+    public String readAllUserLocations(Model model,
+                                       @CookieValue(value = "username", defaultValue = "null") String username,
+                                       @CookieValue(value = "user_token", defaultValue = "null") String token) {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + User.token);
+        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         HttpEntity<String> entity = new HttpEntity<>("body", requestHeaders);
         ResponseEntity<List<Reminder>> responseEntity =
                 restTemplate.exchange(
-                        urlSwitcher(),
+                        url + "reminders/",
                         HttpMethod.GET,
                         entity,
                         new ParameterizedTypeReference<List<Reminder>>() {
@@ -89,17 +75,18 @@ public class ReminderPageController {
     }
 
     @GetMapping(value = "/reminders/{id}")
-    public String readOneUserLocations(@PathVariable(name = "id") int id, Model model) {
-        if (User.token == null) throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+    public String readOneUserLocations(@PathVariable(name = "id") int id, Model model,
+                                       @CookieValue(value = "username", defaultValue = "null") String username,
+                                       @CookieValue(value = "user_token", defaultValue = "null") String token) {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + User.token);
+        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         HttpEntity<String> entity = new HttpEntity<>("body", requestHeaders);
         ResponseEntity<Reminder> responseEntity =
                 restTemplate.exchange(
-                        urlSwitcher() + id,
+                        url + "reminders/" + id,
                         HttpMethod.GET,
                         entity,
                         new ParameterizedTypeReference<Reminder>() {
@@ -111,17 +98,19 @@ public class ReminderPageController {
     }
 
     @GetMapping(value = "/reminders/add")
-    public String addReminderGet() {
+    public String addReminderGet(@CookieValue(value = "user_token", defaultValue = "null") String token) {
+        if (token == null) throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
         return "reminder-add";
     }
 
     @PostMapping(value = "/reminders/add")
-    public String addReminderPost(Model model, Reminder reminder) throws JSONException {
-        if (User.token == null) throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+    public String addReminderPost(Model model, Reminder reminder,
+                                  @CookieValue(value = "username", defaultValue = "null") String username,
+                                  @CookieValue(value = "user_token", defaultValue = "null") String token) throws JSONException {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + User.token);
+        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         JSONObject reminderJson = new JSONObject();
         reminderJson.put("title", reminder.getTitle());
@@ -135,7 +124,7 @@ public class ReminderPageController {
         try {
             ResponseEntity<String> response =
                     restTemplate.exchange(
-                            urlSwitcher(),
+                            url + "reminders/",
                             HttpMethod.POST,
                             request,
                             String.class);
@@ -147,17 +136,18 @@ public class ReminderPageController {
     }
 
     @GetMapping(value = "/reminders/{id}/change")
-    public String changeReminderGet(@PathVariable(name = "id") int id, Model model) {
-        if (User.token == null) throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+    public String changeReminderGet(@PathVariable(name = "id") int id, Model model,
+                                    @CookieValue(value = "username", defaultValue = "null") String username,
+                                    @CookieValue(value = "user_token", defaultValue = "null") String token) {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + User.token);
+        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         HttpEntity<String> entity = new HttpEntity<>("body", requestHeaders);
         ResponseEntity<Reminder> responseEntity =
                 restTemplate.exchange(
-                        urlSwitcher() + id,
+                        url + "reminders/" + id,
                         HttpMethod.GET,
                         entity,
                         new ParameterizedTypeReference<Reminder>() {
@@ -170,12 +160,13 @@ public class ReminderPageController {
     }
 
     @PostMapping(value = "/reminders/{id}/change")
-    public String changeReminderPost(@PathVariable(name = "id") int id, Model model, Reminder reminder) throws JSONException {
-        if (User.token == null) throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+    public String changeReminderPost(@PathVariable(name = "id") int id, Model model, Reminder reminder,
+                                     @CookieValue(value = "username", defaultValue = "null") String username,
+                                     @CookieValue(value = "user_token", defaultValue = "null") String token) throws JSONException {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + User.token);
+        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         JSONObject reminderJson = new JSONObject();
         reminderJson.put("title", reminder.getTitle());
@@ -189,7 +180,7 @@ public class ReminderPageController {
         try {
             ResponseEntity<String> response =
                     restTemplate.exchange(
-                            urlSwitcher() + id,
+                            url + "reminders/" + id,
                             HttpMethod.PUT,
                             request,
                             String.class);
@@ -201,17 +192,18 @@ public class ReminderPageController {
     }
 
     @DeleteMapping(value = "/reminders/del/{id}")
-    public String delReminder(@PathVariable(name = "id") long id, Model model) {
-        if (User.token == null) throw new HttpClientErrorException(HttpStatus.FORBIDDEN);
+    public String delReminder(@PathVariable(name = "id") long id, Model model,
+                              @CookieValue(value = "username", defaultValue = "null") String username,
+                              @CookieValue(value = "user_token", defaultValue = "null") String token) {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + User.token);
+        requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         HttpEntity<String> entity = new HttpEntity<>("body", requestHeaders);
         ResponseEntity<Reminder> responseEntity =
                 restTemplate.exchange(
-                        urlSwitcher() + id,
+                        url + "reminders/" + id,
                         HttpMethod.DELETE,
                         entity,
                         new ParameterizedTypeReference<Reminder>() {

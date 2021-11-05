@@ -19,7 +19,6 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-
     @PostConstruct
     public void initialize() {
         if (accountRepository.findOneByUsername("admin") == null) {

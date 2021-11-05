@@ -14,12 +14,9 @@ import java.util.List;
 
 @RestController
 public class ReminderController {
-    private final ReminderService reminderService;
 
     @Autowired
-    public ReminderController(ReminderService reminderService) {
-        this.reminderService = reminderService;
-    }
+    private ReminderService reminderService;
 
     @PostMapping(value = "/api/reminders")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")

@@ -12,10 +12,6 @@ public class User {
 
     private String role;
 
-    public static String login;
-
-    public static String token;
-
     public User(String username, String password, String email, String role, String token) {
         this.username = username;
         this.password = password;
