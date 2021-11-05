@@ -51,6 +51,7 @@ public class ReminderPageController {
     }
 
     @GetMapping(value = "/reminders")
+    @CrossOrigin(origins = "https://gps-reminder.herokuapp.com", allowCredentials = "true")
     public String readAllUserLocations(Model model,
                                        @CookieValue(value = "username", defaultValue = "null") String username,
                                        @CookieValue(value = "user_token", defaultValue = "null") String token) {
