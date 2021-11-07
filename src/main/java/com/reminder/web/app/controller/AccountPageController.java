@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+@CrossOrigin(origins = "https://gps-reminder.herokuapp.com/", allowCredentials = "true")
 @Controller
 public class AccountPageController {
     private final RestTemplate restTemplate;

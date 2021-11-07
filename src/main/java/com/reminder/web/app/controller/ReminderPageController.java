@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.Collections;
 import java.util.List;
 
+@CrossOrigin(origins = "https://gps-reminder.herokuapp.com/", allowCredentials = "true")
 @Controller
 public class ReminderPageController {
 

@@ -35,6 +35,7 @@ public class AccountController {
             System.out.println(token);
 
             HttpHeaders headers = new HttpHeaders();
+            headers.setAccessControlAllowCredentials(true);
             headers.add("user_token", token);
             headers.add("username", logAccount.getUsername());
 
