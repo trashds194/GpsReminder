@@ -8,11 +8,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.web.header.Header;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -27,7 +24,7 @@ public class AccountController {
 
     @PostMapping(value = "/api/login")
     @ResponseBody
-    public ResponseEntity<?> login(@RequestBody Account account, HttpServletResponse httpServletResponse) {
+    public ResponseEntity<?> login(@RequestBody Account account) {
         System.out.println(account.getUsername());
         try {
             Account logAccount = accountService.findByLoginAndPassword(account.getUsername(), account.getPassword());
@@ -36,8 +33,6 @@ public class AccountController {
             System.out.println(token);
 
             HttpHeaders headers = new HttpHeaders();
-            addCookie("user_token", headers, httpServletResponse);
-            addCookie("username", headers, httpServletResponse);
             headers.add("user_token", token);
             headers.add("username", logAccount.getUsername());
 
@@ -92,14 +87,5 @@ public class AccountController {
         return deleted
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
-
-    private void addCookie(String cookieName, HttpHeaders httpHeaders, HttpServletResponse httpServletResponse) {
-        Cookie cookie = new Cookie(cookieName, httpHeaders.getFirst(cookieName));
-        cookie.setMaxAge(2 * 24 * 60 * 60); //2 day cookies
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-
-        httpServletResponse.addCookie(cookie);
     }
 }
