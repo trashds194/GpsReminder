@@ -46,12 +46,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register", "/login").permitAll()
                 .antMatchers("/api/accounts/**").hasAnyRole("ADMIN", "USER")
                 .and()
-//                .formLogin()
-//                .loginPage("/login").permitAll().failureUrl("/login-error.html")
-//                .and()
-//                .logout().permitAll().logoutSuccessUrl("/login")
-//                .and()
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+//              .formLogin()
+//              .loginPage("/login").permitAll().failureUrl("/login-error.html")
+//              .and()
+//              .logout().permitAll().logoutSuccessUrl("/login")
+//              .and()
     }
 
     @Override
