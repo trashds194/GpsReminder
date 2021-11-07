@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8080/", allowCredentials = "true")
+@CrossOrigin(origins = "https://gps-reminder.herokuapp.com/", allowCredentials = "true")
 @RestController
 public class AccountController {
 
