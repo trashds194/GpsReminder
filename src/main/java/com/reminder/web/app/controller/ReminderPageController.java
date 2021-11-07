@@ -32,6 +32,7 @@ public class ReminderPageController {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        requestHeaders.setAccessControlAllowCredentials(true);
         requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         HttpEntity<String> entity = new HttpEntity<>("body", requestHeaders);
@@ -59,6 +60,7 @@ public class ReminderPageController {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        requestHeaders.setAccessControlAllowCredentials(true);
         requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         HttpEntity<String> entity = new HttpEntity<>("body", requestHeaders);
@@ -83,6 +85,7 @@ public class ReminderPageController {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        requestHeaders.setAccessControlAllowCredentials(true);
         requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         HttpEntity<String> entity = new HttpEntity<>("body", requestHeaders);
@@ -112,6 +115,7 @@ public class ReminderPageController {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+        requestHeaders.setAccessControlAllowCredentials(true);
         requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         JSONObject reminderJson = new JSONObject();
@@ -144,6 +148,7 @@ public class ReminderPageController {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        requestHeaders.setAccessControlAllowCredentials(true);
         requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         HttpEntity<String> entity = new HttpEntity<>("body", requestHeaders);
@@ -168,6 +173,7 @@ public class ReminderPageController {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
+        requestHeaders.setAccessControlAllowCredentials(true);
         requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         JSONObject reminderJson = new JSONObject();
@@ -200,6 +206,7 @@ public class ReminderPageController {
 
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        requestHeaders.setAccessControlAllowCredentials(true);
         requestHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
 
         HttpEntity<String> entity = new HttpEntity<>("body", requestHeaders);

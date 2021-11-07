@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:8080/", allowCredentials = "true")
 @RestController
 public class AccountController {
 
@@ -34,9 +35,6 @@ public class AccountController {
             System.out.println(token);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.setAccessControlAllowCredentials(true);
-            headers.setAccessControlAllowOrigin(null);
-            headers.setAccessControlAllowHeaders(null);
             headers.add("user_token", token);
             headers.add("username", logAccount.getUsername());
 
