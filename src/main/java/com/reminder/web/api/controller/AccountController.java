@@ -8,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.web.header.Header;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +34,9 @@ public class AccountController {
             System.out.println(token);
 
             HttpHeaders headers = new HttpHeaders();
+            headers.setAccessControlAllowCredentials(true);
+            headers.setAccessControlAllowOrigin(null);
+            headers.setAccessControlAllowHeaders(null);
             headers.add("user_token", token);
             headers.add("username", logAccount.getUsername());
 
