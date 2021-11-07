@@ -20,7 +20,6 @@ import org.springframework.web.client.RestTemplate;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-@CrossOrigin(origins = "https://gps-reminder.herokuapp.com/", allowCredentials = "true")
 @Controller
 public class AccountPageController {
     private final RestTemplate restTemplate;
@@ -44,7 +43,6 @@ public class AccountPageController {
     public String loginPost(@ModelAttribute User user, Model model, HttpServletResponse httpServletResponse) throws JSONException {
         HttpHeaders requestHeaders = new HttpHeaders();
         requestHeaders.setContentType(MediaType.APPLICATION_JSON);
-        requestHeaders.setAccessControlAllowCredentials(true);
 
         JSONObject userJson = new JSONObject();
         userJson.put("username", user.getUsername());
@@ -63,22 +61,13 @@ public class AccountPageController {
                             String.class);
             HttpHeaders responseHeaders = response.getHeaders();
 
-            addCookie("user_token", responseHeaders, httpServletResponse);
-            addCookie("username", responseHeaders, httpServletResponse);
+//            addCookie("user_token", responseHeaders, httpServletResponse);
+//            addCookie("username", responseHeaders, httpServletResponse);
 
             return "redirect:/reminders";
         } catch (Exception exception) {
             model.addAttribute("loginError", exception.toString());
             return "login";
         }
-    }
-
-    private void addCookie(String cookieName, HttpHeaders httpHeaders, HttpServletResponse httpServletResponse) {
-        Cookie cookie = new Cookie(cookieName, httpHeaders.getFirst(cookieName));
-        cookie.setMaxAge(2 * 24 * 60 * 60); //2 day cookies
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-
-        httpServletResponse.addCookie(cookie);
     }
 }
