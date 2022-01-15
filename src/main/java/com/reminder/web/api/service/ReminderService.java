@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.List;
 
 public interface ReminderService {
+
     boolean create(Reminder reminder, UserDetails userDetails);
 
     List<Reminder> readAll(UserDetails userDetails);

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/api")
 public class AccountController {
 
     @Autowired
@@ -21,8 +22,7 @@ public class AccountController {
     @Autowired
     private JwtProvider jwtProvider;
 
-
-    @PostMapping(value = "/api/login")
+    @PostMapping(value = "/login")
     @ResponseBody
     public ResponseEntity<?> login(@RequestBody Account account) {
         System.out.println(account.getUsername());
@@ -42,14 +42,14 @@ public class AccountController {
         }
     }
 
-    @PostMapping(value = "/api/register")
+    @PostMapping(value = "/register")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> create(@RequestBody Account account) {
         accountService.create(account);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/api/accounts")
+    @GetMapping(value = "/accounts")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<Account>> read() {
         final List<Account> accounts = accountService.readAll();
@@ -59,17 +59,17 @@ public class AccountController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/api/accounts/{id}")
+    @GetMapping(value = "/accounts/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Account> read(@PathVariable(name = "id") long id) {
         final Account account = accountService.read(id);
 
         return account != null
                 ? new ResponseEntity<>(account, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @PutMapping(value = "/api/accounts/{id}")
+    @PutMapping(value = "/accounts/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> update(@PathVariable(name = "id") long id, @RequestBody Account account) {
         final boolean updated = accountService.update(account, id);
@@ -79,7 +79,7 @@ public class AccountController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @DeleteMapping(value = "/api/accounts/{id}")
+    @DeleteMapping(value = "/accounts/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> delete(@PathVariable(name = "id") long id) {
         final boolean deleted = accountService.delete(id);

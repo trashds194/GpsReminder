@@ -1,4 +1,4 @@
-package com.reminder.web.api.service;
+package com.reminder.web.api.service.impl;
 
 import com.reminder.web.api.model.Account;
 import com.reminder.web.api.repository.AccountRepository;
@@ -14,14 +14,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Service
-public class AuthenticationService implements UserDetailsService {
-
-    private final AccountRepository accountRepository;
+public class AuthenticationServiceImpl implements UserDetailsService {
 
     @Autowired
-    public AuthenticationService(AccountRepository accountRepository) {
-        this.accountRepository = accountRepository;
-    }
+    private AccountRepository accountRepository;
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {

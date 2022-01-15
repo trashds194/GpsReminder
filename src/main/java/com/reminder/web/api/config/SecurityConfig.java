@@ -1,7 +1,7 @@
 package com.reminder.web.api.config;
 
 import com.reminder.web.api.config.jwt.JwtFilter;
-import com.reminder.web.api.service.AuthenticationService;
+import com.reminder.web.api.service.impl.AuthenticationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private JwtFilter jwtFilter;
 
     @Autowired
-    private AuthenticationService authenticationService;
+    private AuthenticationServiceImpl authenticationServiceImpl;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
                 .eraseCredentials(true)
-                .userDetailsService(authenticationService)
+                .userDetailsService(authenticationServiceImpl)
                 .passwordEncoder(passwordEncoder());
     }
 }

@@ -1,14 +1,14 @@
-package com.reminder.web.api.service;
+package com.reminder.web.api.service.impl;
 
 import com.reminder.web.api.model.Account;
 import com.reminder.web.api.reference.AccountRole;
 import com.reminder.web.api.repository.AccountRepository;
+import com.reminder.web.api.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -25,12 +25,11 @@ public class AccountServiceImpl implements AccountService {
             create(new Account("admin", "admin", "trashds194@yandex.ru", AccountRole.ADMIN.name()));
         }
         if (accountRepository.findOneByUsername("Ann") == null) {
-            create(new Account("Ann", "mam1404", "mam1404@yandex.ru", AccountRole.USER.name()));
+            create(new Account("test", "test", "test@test.ru", AccountRole.USER.name()));
         }
     }
 
     @Override
-    @Transactional
     public Account create(Account account) {
         if (account.getRole() == null) {
             account.setRole(AccountRole.USER.name());

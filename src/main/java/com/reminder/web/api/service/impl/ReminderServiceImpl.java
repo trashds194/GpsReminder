@@ -1,9 +1,10 @@
-package com.reminder.web.api.service;
+package com.reminder.web.api.service.impl;
 
 import com.reminder.web.api.model.Account;
 import com.reminder.web.api.model.Reminder;
 import com.reminder.web.api.repository.AccountRepository;
 import com.reminder.web.api.repository.ReminderRepository;
+import com.reminder.web.api.service.ReminderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;

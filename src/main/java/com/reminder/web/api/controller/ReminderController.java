@@ -13,22 +13,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping(value = "/api")
 public class ReminderController {
 
     @Autowired
     private ReminderService reminderService;
 
-    @PostMapping(value = "/api/reminders")
+    @PostMapping(value = "/reminders")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> create(@RequestBody Reminder reminder, @AuthenticationPrincipal UserDetails userDetails) {
         final boolean created = reminderService.create(reminder, userDetails);
 
         return created
                 ? new ResponseEntity<>(HttpStatus.CREATED)
-                : new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                : new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping(value = "/api/reminders/all")
+    @GetMapping(value = "/reminders/all")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<List<Reminder>> read(@AuthenticationPrincipal UserDetails userDetails) {
         final List<Reminder> reminders = reminderService.readAll(userDetails);
@@ -38,7 +39,7 @@ public class ReminderController {
                 : new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    @GetMapping(value = "/api/reminders")
+    @GetMapping(value = "/reminders")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<List<Reminder>> readAllUserLocations(@AuthenticationPrincipal UserDetails userDetails) {
         return updateList(userDetails) != null
@@ -46,7 +47,7 @@ public class ReminderController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/api/reminders/{id}")
+    @GetMapping(value = "/reminders/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Reminder> read(@PathVariable(name = "id") long id, @AuthenticationPrincipal UserDetails userDetails) {
         final Reminder reminder = reminderService.read(id, userDetails);
@@ -56,7 +57,7 @@ public class ReminderController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/api/reminders/search")
+    @GetMapping(value = "/reminders/search")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<Reminder> search(@RequestParam(required = false) String title, @AuthenticationPrincipal UserDetails userDetails) {
         final Reminder reminder = reminderService.search(title, userDetails);
@@ -66,7 +67,7 @@ public class ReminderController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PutMapping(value = "/api/reminders/{id}")
+    @PutMapping(value = "/reminders/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> update(@PathVariable(name = "id") long id, @RequestBody Reminder reminder, @AuthenticationPrincipal UserDetails userDetails) {
         final boolean updated = reminderService.update(reminder, id, userDetails);
@@ -75,7 +76,7 @@ public class ReminderController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @DeleteMapping(value = "/api/reminders/{id}")
+    @DeleteMapping(value = "/reminders/{id}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN', 'ROLE_USER')")
     public ResponseEntity<?> delete(@PathVariable(name = "id") long id, @AuthenticationPrincipal UserDetails userDetails) {
         final boolean deleted = reminderService.delete(id, userDetails);
