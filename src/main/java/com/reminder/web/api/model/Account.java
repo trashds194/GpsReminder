@@ -38,4 +38,9 @@ public class Account {
         this.email = email;
         this.role = role;
     }
+
+    public Account(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
 }

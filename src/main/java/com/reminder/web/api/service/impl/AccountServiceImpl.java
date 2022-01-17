@@ -24,7 +24,7 @@ public class AccountServiceImpl implements AccountService {
         if (accountRepository.findOneByUsername("admin") == null) {
             create(new Account("admin", "admin", "trashds194@yandex.ru", AccountRole.ADMIN.name()));
         }
-        if (accountRepository.findOneByUsername("Ann") == null) {
+        if (accountRepository.findOneByUsername("test") == null) {
             create(new Account("test", "test", "test@test.ru", AccountRole.USER.name()));
         }
     }
