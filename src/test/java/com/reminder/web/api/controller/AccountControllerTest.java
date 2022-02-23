@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reminder.web.WebApplication;
 import com.reminder.web.api.model.Account;
+import com.reminder.web.api.service.AccountService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class AccountControllerTest {
 
+    private final String API_GATEWAY = "/api";
+
     @MockBean
     private AccountController accountController;
 
-    private final String API_GATEWAY = "/api";
+    @MockBean
+    private AccountService accountService;
 
     @Autowired
     private MockMvc mockMvc;
@@ -77,9 +81,6 @@ public class AccountControllerTest {
         this.mockMvc.perform(get(API_GATEWAY + "/accounts/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
-//                .andExpect(content()
-//                        .contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-//                .andExpect(jsonPath("$[0].id").value(1));
     }
 
     @Test

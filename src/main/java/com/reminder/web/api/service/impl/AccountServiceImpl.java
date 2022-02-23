@@ -7,6 +7,7 @@ import com.reminder.web.api.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -30,6 +31,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public Account create(Account account) {
         if (account.getRole() == null) {
             account.setRole(AccountRole.USER.name());
@@ -39,16 +41,19 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public List<Account> readAll() {
         return accountRepository.findAll();
     }
 
     @Override
+    @Transactional
     public Account read(long id) {
         return accountRepository.getById(id);
     }
 
     @Override
+    @Transactional
     public boolean update(Account account, long id) {
         if (accountRepository.existsById(id)) {
             account.setId(id);
@@ -59,6 +64,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public boolean delete(long id) {
         if (accountRepository.existsById(id)) {
             accountRepository.deleteById(id);
@@ -68,11 +74,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Transactional
     public Account findByLogin(String login) {
         return accountRepository.findOneByUsername(login);
     }
 
     @Override
+    @Transactional
     public Account findByLoginAndPassword(String login, String password) {
         Account account = findByLogin(login);
         if (account != null) {

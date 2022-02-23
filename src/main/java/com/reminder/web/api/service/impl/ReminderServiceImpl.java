@@ -8,6 +8,7 @@ import com.reminder.web.api.service.ReminderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -24,6 +25,7 @@ public class ReminderServiceImpl implements ReminderService {
     private AccountRepository accountRepository;
 
     @Override
+    @Transactional
     public boolean create(Reminder reminder, UserDetails userDetails) {
         if (userDetails.getUsername() != null) {
             Account account = accountRepository.findOneByUsername(userDetails.getUsername());
@@ -35,6 +37,7 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
+    @Transactional
     public List<Reminder> readAll(UserDetails userDetails) {
         Account account = accountRepository.findOneByUsername(userDetails.getUsername());
         if (account.getRole().equals("ADMIN")) {
@@ -43,6 +46,7 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
+    @Transactional
     public List<Reminder> readAllUserLocations(UserDetails userDetails) {
         System.out.println(userDetails.getUsername());
         Account account = accountRepository.findOneByUsername(userDetails.getUsername());
@@ -52,6 +56,7 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
+    @Transactional
     public Reminder read(long id, UserDetails userDetails) {
         try {
             Account account = accountRepository.findOneByUsername(userDetails.getUsername());
@@ -66,6 +71,7 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
+    @Transactional
     public Reminder search(String title, UserDetails userDetails) {
         try {
             Account account = accountRepository.findOneByUsername(userDetails.getUsername());
@@ -80,6 +86,7 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
+    @Transactional
     public boolean update(Reminder reminder, long id, UserDetails userDetails) {
         Account account = accountRepository.findOneByUsername(userDetails.getUsername());
         Reminder findReminder = reminderRepository.getById(id);
@@ -95,6 +102,7 @@ public class ReminderServiceImpl implements ReminderService {
     }
 
     @Override
+    @Transactional
     public boolean delete(long id, UserDetails userDetails) {
         Account account = accountRepository.findOneByUsername(userDetails.getUsername());
         if (Objects.equals(account.getId(), reminderRepository.findById(id).get().getUserId())) {
